@@ -37,18 +37,13 @@ pat = "|".join(nums) + r"|\d"
 pat_reversed = "|".join(nums_reversed) + r"|\d"
 
 
-# Implemented as a func as can't be bothered to extend API with method in new namespace
-# Resolved by https://github.com/pola-rs/polars/issues/12861
-def str_reverse(expr: pl.Expr) -> pl.Expr:
-    return expr.str.split("").list.reverse().list.join("")
-
-
 part_2 = (
     pl.read_csv("input.txt", has_header=False, new_columns=["data"])
     .select(
         pl.concat_str(
             pl.col("data").str.extract(pat, 0).replace(nums),
-            str_reverse(pl.col("data"))
+            pl.col("data")
+            .str.reverse()
             .str.extract(pat_reversed, 0)
             .replace(nums_reversed),
         )
