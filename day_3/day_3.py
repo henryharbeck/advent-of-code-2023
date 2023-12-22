@@ -27,7 +27,7 @@ parsed_input = (
         value_type.alias("value_type"),
         # Id for a sequence of the same type of characters, such as a run of numbers
         value_type.rle_id().alias("rle_id"),
-        # Co-ordinates of all surrounding cells
+        # Coordinates of all surrounding cells
         pl.concat_list(
             pl.struct(
                 adjacent_row_index=pl.col("row_index") + i,
